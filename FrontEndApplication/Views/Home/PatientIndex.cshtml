@@ -1,0 +1,236 @@
+﻿@using InterviewApplication.Models
+@model InterviewApplication.Models.Common
+
+@{
+    ViewData["Title"] = "PatientIndex";
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<h1>Patient Reg.</h1>
+<div class="container">
+    <div class="card">
+        <div class="card-header bg-info">
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class=" col-sm-1">
+                </div>
+                <div class=" col-sm-4">
+                    <label for="message-text" class=" col-form-label">Patient Name</label>
+                </div>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control patientName" name="Name" />
+                </div>
+                <div class="col-sm-1"></div>
+            </div>
+            <div class="row">
+                <div class=" col-sm-1">
+                </div>
+                <div class=" col-sm-4">
+                    <label for="message-text" class="col-form-label">Diseases Name</label>
+                </div>
+                <div class="col-sm-6">
+                    <select id="DiseasesName" name="DiseasesName" class="form-control">
+                        @foreach (var disease in Model.D_Info)
+                        {
+                            <option value="@disease.Id">@disease.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-sm-1"></div>
+            </div>
+            <div class="row">
+                <div class=" col-sm-1"></div>
+                <div class=" col-sm-4"><label for="message-text" class=" col-form-label">Epilepsy</label></div>
+                <div class="col-sm-6">
+                    <select class="form-control Epilepsy" asp-items="Html.GetEnumSelectList<Epilepsy>()"><option></option></select> 
+                    
+                </div>
+                <div class="col-sm-1"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-1  "></div>
+                <div class="col-sm-4  "><label for="message-text" class=" col-form-label">NCDS</label></div>
+                <div class="col-sm-6 ">
+                    <div class="row">
+                        <div class="col p-3 ">
+                           @* @Html.ListBox("OtherNCD", new SelectList(ViewBag.NCDS,"Value","Text") , new {@class = "NCDS listBox"})*@
+                            @Html.ListBox("ncd", new SelectList(Model.ncd, "Id", "NCDName"), new { @class = "form-control NCDS" })
+                        </div>
+                        <div class="col p-3 ">
+                            <button type="button" class="btn btn-primary AddNCD" name="Add"> Add ></button>
+                            <br />
+                            <button type="button" class="btn btn-danger RemoveNCD" name="Remove">Remove</button>
+                        </div>
+                        <div class="col p-2 ">@Html.ListBox("ncds", new SelectList(new[]  {""}),new { @class = "ncd ncdlistBox", @id = "ncdlst"} )</div>
+                    </div>
+                </div>
+                <div class="col-sm-1"></div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-1  "></div>
+                <div class="col-sm-4  "><label for="message-text" class=" col-form-label">Allergies</label></div>
+                <div class="col-sm-6 ">
+                    <div class="row">
+                        <div class="col p-3 ">
+                           @* @Html.ListBox("AllAllergie", new SelectList(ViewBag.AllAllergies,"Value","Text") , new {@class = "Allergies listBox"})*@
+                            @Html.ListBox("allergie", new SelectList(Model.allergies, "Id", "AllergiesName"), new { @class = "form-control Allergies" })
+                        </div>
+                        <div class="col p-3 ">
+                            <button type="button" class="btn btn-primary AddAllergie" name="Add">Add  > </button>
+                            <br />
+                            <button type="button" class="btn btn-danger RemoveAllergie" name="Remove">Remove</button>
+                        </div>
+                        <div class="col p-2 ">@Html.ListBox("Allergie", new SelectList(new[]  {""}),new {@class = "Allergie listBox", @id="allergielst"} )</div>
+                    </div>
+                </div>
+                <div class="col-sm-1"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-1 row">
+                    <button type="button" class="btn btn-success SavePatients" name="Save">Save</button>
+                </div>
+                <div class="col-sm-5">
+
+                    @if (TempData["Message"] != null)
+                            {
+                                <strong style="color: white;">@TempData["Message"]</strong>
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+                                $(".patientName").val("");
+
+                            }
+                            );
+                        </script>
+                            }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.AddNCD').click(function (e) {
+            var selectedOpts = $('.NCDS option:selected');
+            if (selectedOpts.length == 0) {
+                alert("Nothing to move.");
+                e.preventDefault();
+            }
+
+            $('.ncd').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+            e.preventDefault();
+        });
+
+        $('.RemoveNCD').click(function (e) {
+            var selectedOpts = $('.ncd option:selected');
+            if (selectedOpts.length == 0) {
+                alert("Nothing to move.");
+                e.preventDefault();
+            }
+
+            $('.NCDS').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+            e.preventDefault();
+        });
+
+        $('.AddAllergie').click(function (e) {
+            var selectedOpts = $('.Allergies option:selected');
+            if (selectedOpts.length == 0) {
+                alert("Nothing to move.");
+                e.preventDefault();
+            }
+
+            $('.Allergie').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+            e.preventDefault();
+        });
+
+        $('.RemoveAllergie').click(function (e) {
+            var selectedOpts = $('.Allergie option:selected');
+            if (selectedOpts.length == 0) {
+                alert("Nothing to move.");
+                e.preventDefault();
+            }
+
+            $('.Allergies').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+            e.preventDefault();
+        });
+        
+        $('.SavePatients').click(function () {
+
+            var ncd_options = document.getElementById("ncdlst").options;
+            var ncd_temp = new Array();
+            for (var i = 0; i < ncd_options.length; i++) {
+                var details1 = {};
+                var item = ncd_options[i];
+                if (item.value > 0) {
+                    details1.NCDID = item.value;
+                    ncd_temp.push(details1);
+                }
+            }
+
+            var allergie_options = document.getElementById("allergielst").options;
+            var allergie_temp = new Array();
+            for (var i = 0; i < allergie_options.length; i++) {
+                var details = {};
+                var item = allergie_options[i];
+                if (item.value > 0) {
+                    details.AllergiesID = item.value;
+                    allergie_temp.push(details);
+                }
+            }
+
+            if ($(".patientName").val()== "" ){
+                alert("Patient Name Required");
+            }
+            else if ($('.Epilepsy').val()==""){
+                alert("Epilepsy Required");
+            }
+            else if (ncd_temp.length<1 ){
+                alert("No NCD Selected");
+            }
+            else if (allergie_temp.length < 1) {
+                alert("No Allergie Selected");
+            }
+            else{
+                var allData = {
+                    P_Info: [{ "Name": $(".patientName").val(), Epilepsy: $('.Epilepsy').val() }],
+                    D_Info: [{ "Id": $('#DiseasesName').val() }],
+                    ncdDtails: ncd_temp,
+                    allergies_Details: allergie_temp
+                };
+
+                console.log(allData);
+                $.ajax({
+                    type: 'POST',
+                    url: '/Home/RegisterPatient',
+                    data: allData,
+                    success: function (result) {
+                        console.log('Data saved successfully');
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error(textStatus, errorThrown);
+                    }
+                });
+            }
+            
+        });
+
+    });
+
+</script>
+

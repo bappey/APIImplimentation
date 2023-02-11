@@ -1,0 +1,131 @@
+﻿@model IEnumerable<InterviewApplication.Models.DiseaseInfo>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new {  id=item.Id  }) |
+                @Html.ActionLink("Delete", "Delete", new {  id=item.Id  })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+
+
+@*<div class="card">
+    <div class="card-header bg-info">
+        <h3 class="card-title">Patient Activity</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                <i class="fas fa-minus"></i>
+            </button>           
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="form-group row">
+            <label for="message-text" class="col-sm-4 col-form-label">Patient Name</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" name="Name" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="message-text" class="col-sm-4 col-form-label">Diseases Name</label>
+            <div class="col-sm-8">
+                
+                <select id="DiseasesName" name="DiseasesName" class="form-control">
+                      
+                </select> 
+
+               
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="message-text" class="col-sm-4 col-form-label">Epilepsy</label>
+            <div class="col-sm-8">
+            
+            </div>
+        </div>
+    </div>
+</div>*@
+@*<input type="text" class="form-control" name="DiseasesName" />*@
+@* @Html.DropDownList("DiseasesName", (IEnumerable<SelectListItem>)ViewBag.D_Info, new { @class = "form-control extra-class DiseasesName" , @id = "DiseasesName" })*@
+@*    @Html.DropDownList("Epilepsy", (IEnumerable<SelectListItem>)ViewBag.Epilepsies, new { @class = "form-control extra-class Epilepsy" })*@
+
+@*<script type="text/javascript">
+    $(document).ready(function () {
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "https://localhost:7052/api/Patient/Get", true);
+        xhttp.send();
+
+        xhttp.onreadystatechange = function () {
+            //var dropDownDisease = document.getElementById("DiseasesName");
+            
+            if (this.readyState == 4 && this.status == 200) {
+                JSON.parse(this.responseText).forEach(function (data, index) {
+                   alert();
+                    var opt = $('<option></option>');
+                    opt.attr('value', item.Id).text(item.Name);
+                    $(".DiseasesName").append(opt);
+                });
+            }
+        };
+    });
+
+</script>
+ 
+
+
+<script type="text/javascript">
+    ShowAllReservation();
+
+    function ShowAllReservation() {
+        
+    }
+</script>*@
+
+ @*$('.DepartmentId').find('option').remove().end();
+            $.ajax({
+                type: "GET",
+                url: "../Requestion/GetDepartmentNameByBranch",
+                data: { BranchId: $(".BranchId :selected").val() },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    $.each(r, function (i, item) {
+                        var opt = $('<option></option>');
+                        opt.attr('value', item.DepartmentId).text(item.DepartmentName);
+                        $(".DepartmentId").append(opt);
+                    });
+                }
+            });*@
+
+
+
